@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project name="devint-snapshot" default="validate" basedir="." xmlns:sf="antlib:com.salesforce">
+	<property file="build.properties" />
+	<!--property environment="env"/-->
+	<!-- Deploy from Git -->
+	<target name="deploy">
+		<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="F:\Jenkins\workspace\QA\src"></sf:deploy>
+	</target>
+	<!-- Validate deployment from Git -->
+	<target name="validate">
+		<sf:deploy checkOnly="true" username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="F:\Jenkins\workspace\QA\src"></sf:deploy>
+	</target>
+	<!-- Run all internal tests -->
+	<target name="runTests">
+		<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" checkOnly="true" deployRoot="F:\Jenkins\workspace\Tests\src" pollWaitMillis="40000" runAllTests="false">
+			<runTest>AccountBatchCleanTests</runTest>
+			<runTest>AccountBatchCleanUseMergeTests</runTest>
+			<runTest>AccountContactAddressMassUpdateTests</runTest>
+		</sf:deploy>
+	</target>
+</project>
